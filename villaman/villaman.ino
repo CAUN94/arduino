@@ -8,18 +8,25 @@
 
 Ultrasonic ultrasonic1(9, 8);
 Ultrasonic ultrasonic2(11, 10);
-int pin = 12;
+int pin1 = 12;
+int pin2 = 6;
 int a ;
 int b ;
-int led = 1;
+int led1 = 1;
+int led2 = 2;
 int gente = 0;
+int Bol1;
+int Bol2;
+char data = 0;
 
 
 void setup() {
 
   Serial.begin(9600);
-  pinMode(pin, OUTPUT);
-  digitalWrite(pin, LOW);
+  pinMode(pin1, OUTPUT);
+  digitalWrite(pin1, LOW);
+  pinMode(pin2, OUTPUT);
+  digitalWrite(pin2, LOW);
 }
 
 void loop()
@@ -30,7 +37,11 @@ void loop()
     delay(100);
   */
   //Serial.print(ultrasonic.Ranging(CM)); // CM or INC
+  // set comando to 0
 
+
+  // read the incoming byte:
+  data = Serial.read();
 
   int u1 = ultrasonic1.Ranging(CM);
   int u2 = ultrasonic2.Ranging(CM);
@@ -43,7 +54,7 @@ void loop()
     Serial.println(a);
     Serial.println(b);
     Serial.println("E1");
- 
+
   }
   if (u2 < 20 && a == 1 && b == 0 ) // Entrando 2
   {
@@ -66,7 +77,7 @@ void loop()
     Serial.println(b);
     Serial.println("S1");
 
-    
+
   }
   if (u1 < 20 && a == 2 && b == 0 ) // Saliendo 2
   {
@@ -105,24 +116,51 @@ void loop()
     Serial.println("S");
 
   }
-  if (gente == 0)
+
+
+
+  if (data == 'a')
   {
-    digitalWrite(pin, LOW);
+    Bol1 = 1;
   }
-  else if (gente > 0)
+  else if (data == 's')
   {
-    digitalWrite(pin, HIGH);
+    Bol1 = 0;
+    Serial.println(Bol1);
+  }
+  else if (data == 'd')
+  {
+    Bol2 = 1;
+    Serial.println(Bol2);
+  }
+  else if (data == 'f')
+  {
+    Bol2 = 0;
+    Serial.println(Bol2);
   }
 
-  /*
-    if (cont == 0)
-    {
-      digitalWrite(pin, HIGH);
-    }
-    else if (cont == -1)
-    {
-      digitalWrite(pin, LOW);
-    }
-  */
+  
+
+  if (gente == 0 && Bol1 == 1)
+  {
+    digitalWrite(pin1, LOW);
+
+  }
+  else if (gente > 0 && Bol1 == 1)
+  {
+    digitalWrite(pin1, HIGH);
+
+  }
+
+  if (gente == 0 && Bol2 == 1 )
+  {
+    digitalWrite(pin2, LOW);
+  }
+  else if (gente > 0 && Bol2 == 1 )
+  {
+    digitalWrite(pin2, HIGH);
+  }
+
+
 
 }
