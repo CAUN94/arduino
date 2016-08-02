@@ -12,8 +12,6 @@ int pin1 = 12;
 int pin2 = 6;
 int a ;
 int b ;
-int led1 = 1;
-int led2 = 2;
 int gente = 0;
 int Bol1;
 int Bol2;
